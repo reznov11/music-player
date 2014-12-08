@@ -6,7 +6,6 @@ from player.models import *
 
 class MusicAppTestCase(unittest.TestCase):
     
-    # SQLALCHEMY_DATABASE_URI = "sqlite://"
     TESTING = True
 
     def create_app(self):
