@@ -81,17 +81,38 @@ class MusicAppTestCase(unittest.TestCase):
         pl1 = Playlist('playlist1', self.user)
         self.db.session.add(pl1)
         self.db.session.commit()
-
+        pl1_id = pl1.id
         response = self.app.post("/playlists/%s/add_track" % pl1.id,
             data=json.dumps({
-                'title': '0eGsygTp906u18L0Oimnem',
-                'track_id': 'Mr. Brightside',
+                'track_id': '0eGsygTp906u18L0Oimnem',
+                'title': 'Mr. Brightside',
                 'uri': 'spotify:track:0eGsygTp906u18L0Oimnem'
             }),
             content_type='application/json')
-        plx = Playlist.query.get(pl1.id)
-        self.assertEqual('204 NO CONTENT', response.status)
-        self.assertEqual(0, len(plx.tracks))
+        plx = Playlist.query.get(pl1_id)
+        self.assertEqual('201 CREATED', response.status)
+        self.assertEqual(1, len(plx.tracks))
         
+    def test_playlist_delete_track(self):
+        pl1 = Playlist('playlist1', self.user)
+        self.db.session.add(pl1)
+        self.db.session.commit()
+
+        tk1 = Track('PeGsygTp906u18L0Oimnem','Reasons Unknown', 'spotify:track:0eGsygTp906u18L0Oimnem')
+        self.db.session.add(tk1)
+        self.db.session.commit()
+
+        pl1.tracks.append(tk1)
+        self.db.session.add(tk1)
+        self.db.session.commit()
+
+        pl1_id = pl1.id
+        response = self.app.delete("/playlists/%s/remove_track" % pl1.id,
+            data=json.dumps({'pk': tk1.id}),
+            content_type='application/json')
+
+        plx = Playlist.query.get(pl1_id)
+        self.assertEqual('200 OK', response.status)
+        self.assertEqual(0, len(plx.tracks))
 if __name__ == '__main__':
     unittest.main()

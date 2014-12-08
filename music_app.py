@@ -3,7 +3,7 @@ import os
 from flask import Flask, g
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlite3 import dbapi2 as sqlite3
-import pdb
+
 app = Flask(__name__)
 
 # app.config.from_pyfile('config.py', silent=True)

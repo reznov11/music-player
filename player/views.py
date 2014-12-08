@@ -7,7 +7,7 @@ from . models import *
 
 mod = Blueprint('player', __name__, url_prefix='')
 
-import pdb
+
 @mod.route("/playlists", methods=['GET', 'POST'])
 def get_or_create_playlists():
     """
@@ -82,23 +82,26 @@ def add_track_to_playlist(playlist_id):
     track_id = data['track_id']
 
     # fetch track data??
-    track = Track.query.filter_by(track_id=track_id).first_or_404
+    track = Track.query.filter_by(track_id=track_id).first()
 
     # if track with ID is does not exist in DB, attempt to fetch it from
     # spotify and then create it
     if track is None:
-        track_data = spotify_api_client.get_track(track_id)
+        track_data = spotify_api_client().get_track(track_id)
 
         if track_data is None:
             return Response("invalid track_id: %s" % track_id, status=403)
+        parsed = json.loads(track_data.content)
         track = Track(
-            track_id=track_data['id'],
-            uri=track_data['uri'],
-            title=track_data['name'])
+            track_id=parsed['id'],
+            uri=parsed['uri'],
+            title=parsed['name'])
+        db.session.add(track)
+        db.session.commit()
 
         pl.tracks.append(track)
         db.session.commit()
-
+        return Response('', status=201)
     return Response('', status=204)
 
 @mod.route("/playlists/<playlist_id>/remove_track", methods=['DELETE'])
@@ -107,13 +110,14 @@ def remove_track_to_playlist(playlist_id):
     playlist = Playlist.query.filter_by(id=playlist_id, user_id=1).first_or_404()
 
     data = request.get_json()
-    pk = data.fetch('id', None)
+    pk = data.get('pk', None)
 
-    track = Track.query.get(id=pk)
+    track = Track.query.get(pk)
     if track is None:
         return Response("invalid track_id: %s" % track_id, status=403)
 
     playlist.tracks.remove(track)
+    db.session.commit()
     return Response('', status=200)
 
 
@@ -121,4 +125,4 @@ def remove_track_to_playlist(playlist_id):
 def perform_search():
     q = request.args.get('q')
     q_type = request.args.get('q_type')
-    return spotify_api_client.search_for(q, q_type)
+    return spotify_api_client().search_for(q, q_type)

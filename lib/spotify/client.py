@@ -1,4 +1,4 @@
-import requests, md5
+import requests, md5, json
 
 # import logging
 # try:
@@ -25,7 +25,10 @@ class Client:
         self.cache = cache
 
     def _make_request(self, url, params={}):
-        return requests.get(url, params=params)
+        res = requests.get(url, params=params)
+        if not res.ok:
+            return None
+        return res
 
     def _absolute_url(self, path):
         return "{0}{1}".format(self.server_url, path)
@@ -36,8 +39,9 @@ class Client:
         if result is None:
             search_url = self._absolute_url('/v1/search')
             result = self._make_request(search_url, { 'q': q, 'type': q_type })
-            self.cache[cache_key] = result
-        return result
+            self.cache[cache_key] = result.content
+        return json.loads(result.content)
+
 
     def search_albums(self, query):
         return self._search_for(query, 'album')
