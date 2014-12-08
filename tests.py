@@ -117,9 +117,16 @@ class MusicAppTestCase(unittest.TestCase):
         self.assertEqual('200 OK', response.status)
         self.assertEqual(0, len(plx.tracks))
 
-    def test_search(self):
+    def test_search_uncached(self):
         response = self.app.get('/search?q=The%20Killers&q_type=track')
         self.assertEqual('200 OK', response.status)
+
+    def test_search_postcached(self):
+        pass
+
+
+    def test_search_precached(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()

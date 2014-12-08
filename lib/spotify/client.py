@@ -54,3 +54,9 @@ class Client:
 
     def get_track(self, track_id):
         return self._make_request(self._absolute_url("/v1/tracks/%s" % track_id))
+
+    def get_new_releases(self, country=None):
+        return self._make_request(self._absolute_url("/v1/browse/new-releases"))
+
+    def get_album_tracks(self, album_id):
+        return self._make_request(self._absolute_url("/v1/albums/%s/tracks" % album_id))
