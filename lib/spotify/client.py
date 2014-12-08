@@ -1,19 +1,19 @@
 import requests, md5, json
 
-# import logging
-# try:
-#     import http.client as http_client
-# except ImportError:
-#     # Python 2
-#     import httplib as http_client
-# http_client.HTTPConnection.debuglevel = 1
+import logging
+try:
+    import http.client as http_client
+except ImportError:
+    # Python 2
+    import httplib as http_client
+http_client.HTTPConnection.debuglevel = 1
 
-# # You must initialize logging, otherwise you'll not see debug output.
-# logging.basicConfig() 
-# logging.getLogger().setLevel(logging.DEBUG)
-# requests_log = logging.getLogger("requests.packages.urllib3")
-# requests_log.setLevel(logging.DEBUG)
-# requests_log.propagate = True
+# You must initialize logging, otherwise you'll not see debug output.
+logging.basicConfig() 
+logging.getLogger().setLevel(logging.DEBUG)
+requests_log = logging.getLogger("requests.packages.urllib3")
+requests_log.setLevel(logging.DEBUG)
+requests_log.propagate = True
 
 class Client:
 
@@ -33,7 +33,7 @@ class Client:
     def _absolute_url(self, path):
         return "{0}{1}".format(self.server_url, path)
 
-    def _search_for(self, q, q_type):
+    def search_for(self, q, q_type):
         cache_key = md5.new("{0}--{1}".format(q, q_type)).hexdigest()
         result = self.cache.get(cache_key, None)
         if result is None:

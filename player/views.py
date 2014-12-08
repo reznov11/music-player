@@ -121,8 +121,9 @@ def remove_track_to_playlist(playlist_id):
     return Response('', status=200)
 
 
-@mod.route("/search")
+@mod.route("/search", methods=['GET'])
 def perform_search():
     q = request.args.get('q')
     q_type = request.args.get('q_type')
-    return spotify_api_client().search_for(q, q_type)
+    resp = spotify_api_client().search_for(q, q_type)
+    return Response(json.dumps(resp))

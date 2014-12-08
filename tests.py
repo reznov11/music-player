@@ -98,7 +98,9 @@ class MusicAppTestCase(unittest.TestCase):
         self.db.session.add(pl1)
         self.db.session.commit()
 
-        tk1 = Track('PeGsygTp906u18L0Oimnem','Reasons Unknown', 'spotify:track:0eGsygTp906u18L0Oimnem')
+        tk1 = Track('PeGsygTp906u18L0Oimnem',
+            'Reasons Unknown',
+            'spotify:track:0eGsygTp906u18L0Oimnem')
         self.db.session.add(tk1)
         self.db.session.commit()
 
@@ -114,5 +116,10 @@ class MusicAppTestCase(unittest.TestCase):
         plx = Playlist.query.get(pl1_id)
         self.assertEqual('200 OK', response.status)
         self.assertEqual(0, len(plx.tracks))
+
+    def test_search(self):
+        response = self.app.get('/search?q=The%20Killers&q_type=track')
+        self.assertEqual('200 OK', response.status)
+
 if __name__ == '__main__':
     unittest.main()
