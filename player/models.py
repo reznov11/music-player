@@ -1,8 +1,6 @@
 import json
 from flask.ext.sqlalchemy import SQLAlchemy
-from music_app import app
-
-db = SQLAlchemy(app)
+from music_app import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)

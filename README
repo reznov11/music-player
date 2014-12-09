@@ -3,10 +3,42 @@ App Repo: https://github.com/tiabas/music-player
 
 How is source code organized
 
-There are 2 folders in repository:
+.
+├── Procfile
 
-lib - benchmarks & benchmark data;
-lib - original unmodified marisa-trie C++ library which is bundled for easier distribution; if something is have to be fixed in this library consider fixing it in the original repo ;
-src - wrapper code; src/marisa_trie.pyx is a wrapper implementation; src/*.pxd files are Cython headers for corresponding C++ headers; src/*.cpp files are the pre-built extension code and shouldn't be modified directly (they should be updated via update_cpp.sh script).
-tests - the test suite.
+├── README 
 
+
+├── data
+│   ├── player.sqlite3
+│   └── precache_data.json
+
+
+├── lib
+│   
+│   ├── oauth2
+│   │   ├── __init__.py
+│   │   └── client.py
+
+│   ├── pre_cache.py
+
+
+│   └── spotify
+│       ├── __init__.py
+│       └── client.py
+
+├── music_app.py
+
+
+├── player
+│   ├── __init__.py
+│   ├── models.py
+│   └── views.py
+
+
+├── requirements.txt
+
+├── shell.py
+
+
+└── tests.py

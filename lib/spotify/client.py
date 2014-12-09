@@ -34,6 +34,7 @@ class Client:
     def _absolute_url(self, path):
         return "{0}{1}".format(self.server_url, path)
 
+
     def search_for(self, q, q_type):        
         cache_key = md5.new("{0}--{1}".format(q, q_type)).hexdigest()
         result = self.cache.get(cache_key, self.pre_cache.get(q, q_type))
