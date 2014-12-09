@@ -10,7 +10,7 @@ class OAuth2Client:
         self.authorize_path = authorize_path
         self.tokens_path = tokens_path
 
-    def authorize_url(self, redirect_uri, state, response_type, scope='', show_dialog='true'):
+    def authorize_url(self, redirect_uri, response_type, state='', scope='', show_dialog='true'):
         query_string = urllib.urlencode({
             'client_id': self.client_id,
             'redirect_uri': redirect_uri ,
@@ -31,4 +31,4 @@ class OAuth2Client:
         headers = { 'Authorization' : "Basic %s" % base64.standard_b64encode("{0}:{1}".format(self.client_id, self.client_secret))}
         request = urllib2.Request(url, data, headers)
         response = urllib2.urlopen(request)
-        return AccessToken.from_json(response.read())
+        return response.read()

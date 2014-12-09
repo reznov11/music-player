@@ -6,9 +6,8 @@ from sqlite3 import dbapi2 as sqlite3
 
 app = Flask(__name__)
 
-# app.config.from_pyfile('config.py', silent=True)
 app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'player.sqlite3'),
+    DATABASE=os.path.join(app.root_path, '/data/player.sqlite3'),
     DEBUG=True,
 ))
 app.config.from_envvar('APP_SETTINGS', silent=True)
