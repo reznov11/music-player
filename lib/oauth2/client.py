@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
 import urllib, urllib2
 import json, base64
 
 class OAuth2Client:
 
+    """
+    Simplifies the process of obtaining OAuth2 access tokens
+    """
     def __init__(self, client_id, client_secret, server='https://accounts.spotify.com', authorize_path='/authorze', tokens_path='/api/token'):
         self.server_url = server
         self.client_id = client_id

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import music_app
 import unittest
@@ -6,6 +7,10 @@ from player.models import *
 
 class MusicAppTestCase(unittest.TestCase):
     
+    """
+    Test cases for endpoints provided by the music layer app
+    """
+
     TESTING = True
 
     def create_app(self):
@@ -92,6 +97,7 @@ class MusicAppTestCase(unittest.TestCase):
         plx = Playlist.query.get(pl1_id)
         self.assertEqual('201 CREATED', response.status)
         self.assertEqual(1, len(plx.tracks))
+
         
     def test_playlist_delete_track(self):
         pl1 = Playlist('playlist1', self.user)
@@ -117,9 +123,11 @@ class MusicAppTestCase(unittest.TestCase):
         self.assertEqual('200 OK', response.status)
         self.assertEqual(0, len(plx.tracks))
 
+
     def test_search_uncached(self):
         response = self.app.get('/search?q=The%20Killers&q_type=track')
         self.assertEqual('200 OK', response.status)
+
 
     def test_search_postcached(self):
         pass

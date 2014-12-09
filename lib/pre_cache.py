@@ -1,8 +1,13 @@
 import json, marisa_trie
 
-class AlbumPreCache:
+class PreCache:
+	"""
+	Acts as a cache for key/value pairs. Uses a Trie data structure
+	to allow for the retrival of multiple values whose keys contain
+	a specified prefix.
+	"""
 
-	def __init__(self, source_file='precache_data.json'):
+	def __init__(self, source_file):
 		self._cached_data = {}
 		self.source_file = source_file
 		self._warm = False
@@ -12,6 +17,22 @@ class AlbumPreCache:
 			self._warm_cache()
 		items = self._trie.items(unicode(key).lower())
 		return [self._cached_data.get(unicode(i[1])) for i in items]
+
+	def _warm_cache(self):
+		raise NotImplementedError()
+
+
+class AlbumPreCache(PreCache):
+	"""
+	Precaches a list of Spotify album objects using the album name
+	as a key and the album json data as the value.
+
+	NOTE: The source file name is harcoded due to time constraints. Ideally
+	this would be injected at the time of instantiation of the class
+	"""
+
+	def __init__(self):
+		PreCache.__init__(self, 'precache_data.json')
 
 	def _warm_cache(self):
 		if self._warm:
@@ -31,5 +52,18 @@ class AlbumPreCache:
 		self._warm = True
 
 
+class ArtistPreCache(PreCache):
+	"""
+	Precaches a list of Spotify artist objects using the album name
+	as a key and the album json data as the value
 
+	NOTE: This has not been implemented in the interest of time
+	"""
 
+class TrackPreCache(PreCache):
+	"""
+	Precaches a list of Spotify artist objects using the album name
+	as a key and the album json data as the value
+
+	NOTE: This has not been implemented in the interest of time
+	"""
