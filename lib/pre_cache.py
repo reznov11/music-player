@@ -52,7 +52,7 @@ class AlbumPreCache(PreCache):
 
 class ArtistPreCache(PreCache):
 	"""
-	Precaches a list of Spotify artist objects using the album name
+	Precaches a list of Spotify artist objects using the artist name
 	as a key and the album json data as the value
 
 	NOTE: This has not been implemented in the interest of time
@@ -60,7 +60,7 @@ class ArtistPreCache(PreCache):
 
 class TrackPreCache(PreCache):
 	"""
-	Precaches a list of Spotify artist objects using the album name
+	Precaches a list of Spotify artist objects using the track name
 	as a key and the album json data as the value
 
 	NOTE: This has not been implemented in the interest of time
