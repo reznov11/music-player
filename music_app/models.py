@@ -1,5 +1,5 @@
 import json
-from flask.ext.sqlalchemy import SQLAlchemy
+
 from music_app import db
 
 class User(db.Model):

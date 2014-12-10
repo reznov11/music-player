@@ -32,7 +32,7 @@ class AlbumPreCache(PreCache):
 	"""
 
 	def __init__(self):
-		PreCache.__init__(self, 'precache_data.json')
+		PreCache.__init__(self, 'precached_album_data.json')
 
 	def _warm_cache(self):
 		if self._warm:
@@ -60,6 +60,9 @@ class ArtistPreCache(PreCache):
 	NOTE: This has not been implemented in the interest of time
 	"""
 
+	def __init__(self):
+		PreCache.__init__(self, 'precached_artist_data.json')
+
 class TrackPreCache(PreCache):
 	"""
 	Precaches a list of Spotify artist objects using the album name
@@ -67,3 +70,6 @@ class TrackPreCache(PreCache):
 
 	NOTE: This has not been implemented in the interest of time
 	"""
+
+	def __init__(self):
+		PreCache.__init__(self, 'precached_track_data.json')
