@@ -2,8 +2,8 @@
 
 **Link to web app source repository**: https://github.com/tiabas/music-player
 
-###Source Structure:
-===================
+Source Structure:
+----------------
 ```
 .
 ├── Procfile
@@ -59,22 +59,22 @@
 	  this application
 ```
 
-###Libraries used:
-===============
-All the libraries below were used in order to save time and avoid duplicating 
+Libraries used:
+--------------
+> All the libraries below were used in order to save time and avoid duplicating 
 functionality that was not necessarily relevant to the problem at hand
-
-- requests: A python urllib wrapper with a cleaner interface
-- Flask: A micro-framework for building web applications. Flask provides a barebones
+>
+> - requests: A python urllib wrapper with a cleaner interface
+> - Flask: A micro-framework for building web applications. Flask provides a barebones
          web utilities for a very basic python web apps
-- marisa-trie: Provides a Trie datastrucure for fast lookup of items in pre-cached data cache
-- SQLAlchemy: A python database wrapper the provides ORM functionalities
-- virtualenv: Tool to create isolated Python environments
-- Flask-Testing: Utilities for testing Flask based web applications
-- Gunicorn: Python WSGI HTTP Server for UNIX
+> - marisa-trie: Provides a Trie datastrucure for fast lookup of items in pre-cached data cache
+> - SQLAlchemy: A python database wrapper the provides ORM functionalities
+> - virtualenv: Tool to create isolated Python environments
+> - Flask-Testing: Utilities for testing Flask based web applications
+> - Gunicorn: Python WSGI HTTP Server for UNIX
 
-###Endpoints:
-==========
+Endpoints:
+----------
 ```
 help                           GET                          /
 perform_search                 GET                          /search
@@ -84,8 +84,8 @@ add_track_to_playlist          POST,OPTIONS                 /playlists/[playlist
 remove_track_to_playlist       DELETE                       /playlists/[playlist_id]/remove_track
 ```
 
-###Running the app:
-================
+Running the app:
+------------------
 From the application root directory, inside a unix termianl, run:
 
 - Installing dependencies
