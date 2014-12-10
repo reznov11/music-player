@@ -10,11 +10,15 @@ Source Structure:
 	- This file
 
 ├── data
+│   ├── player.sql
 │   ├── player.sqlite3
-│   └── precache_data.json
+│   ├── precached_album_data.json
+│   ├── precached_artist_data.json
+│   └── precached_track_data.json
 	- player.sqlite3: preloaded sqilite database file for use with this application
-	- precache_data.json: prefetched album data from Spotify's new-releases endpoint
-
+	- precached_album_data.json: prefetched album data from Spotify's new-releases endpoint
+	- precached_artist_data.json: empty file
+	- precached_track_data.json: empty file
 ├── lib
 │   
 │   ├── oauth2
@@ -82,5 +86,11 @@ Running the app:
 ================
 From the app root, inside a termianl, run:
 
-$> pip install -r requirements.txt 
-$> python music_app.py
+- Installing dependencies
+> pip install -r requirements.txt 
+
+- Launching web app
+> python music_app.py
+
+- Running tests:
+> python tests.py
