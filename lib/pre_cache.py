@@ -16,6 +16,7 @@ class PreCache:
 		if not self._warm:
 			self._warm_cache()
 		items = self._trie.items(unicode(key).lower())
+
 		return [self._cached_data.get(unicode(i[1])) for i in items]
 
 	def _warm_cache(self):
@@ -30,9 +31,6 @@ class AlbumPreCache(PreCache):
 	NOTE: The source file name is harcoded due to time constraints. Ideally
 	this would be injected at the time of instantiation of the class
 	"""
-
-	def __init__(self):
-		PreCache.__init__(self, 'precached_album_data.json')
 
 	def _warm_cache(self):
 		if self._warm:
@@ -60,9 +58,6 @@ class ArtistPreCache(PreCache):
 	NOTE: This has not been implemented in the interest of time
 	"""
 
-	def __init__(self):
-		PreCache.__init__(self, 'precached_artist_data.json')
-
 class TrackPreCache(PreCache):
 	"""
 	Precaches a list of Spotify artist objects using the album name
@@ -70,6 +65,3 @@ class TrackPreCache(PreCache):
 
 	NOTE: This has not been implemented in the interest of time
 	"""
-
-	def __init__(self):
-		PreCache.__init__(self, 'precached_track_data.json')

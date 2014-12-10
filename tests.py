@@ -92,7 +92,7 @@ class MusicAppTestCase(unittest.TestCase):
         self.assertTrue(Playlist.query.get(pl1.id))
 
         response = self.app.delete("/playlists/%s" % pl1.id)
-        self.assertEqual('200 OK', response.status)
+        self.assertEqual(200, response.status_code)
         self.assertEqual(None, Playlist.query.get(pl1.id))
 
 
@@ -137,21 +137,24 @@ class MusicAppTestCase(unittest.TestCase):
             content_type='application/json')
 
         plx = Playlist.query.get(pl1_id)
-        self.assertEqual('200 OK', response.status)
+        self.assertEqual(200, response.status_code)
         self.assertEqual(0, len(plx.tracks))
 
 
-    # def test_search_uncached(self):
-    #     response = self.app.get('/search?q=The%20Killers&q_type=track')
-    #     self.assertEqual('200 OK', response.status)
+    def test_search_uncached(self):
+        response = self.app.get('/search?q=The%20Killers&q_type=album')
+        self.assertEqual(200, response.status_code)
 
 
-    # def test_search_postcached(self):
-    #     pass
-
-
-    # def test_search_precached(self):
-    #     pass
+    def test_search_precached(self):
+        """
+        Tests the functionality of the pre-cache feature by making a query
+        for an album that exists in the pre-cached data file
+        """
+        response = self.app.get('/search?q=We%20Are%20One&q_type=album')
+        self.assertEqual(200, response.status_code)
+        data = json.loads(response.data)
+        self.assertEqual('We Are One (Ole Ola) [The Official 2014 FIFA World Cup Song]', data[0]['name'])
 
 if __name__ == '__main__':
     unittest.main()

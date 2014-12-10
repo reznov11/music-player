@@ -3,12 +3,17 @@ import json
 from music_app import db
 
 class User(db.Model):
+    """
+    Model for storing user data. For the sake of simplcity, this
+    will just store a user id
+    """
     id = db.Column(db.Integer, primary_key=True)
 
     @property
     def serialize(self):
        """Return object data in easily serializeable format"""
        return { 'id' : self.id }
+
 
 class AccessToken(db.Model):
     """

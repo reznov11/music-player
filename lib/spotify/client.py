@@ -17,6 +17,8 @@ requests_log.propagate = True
 
 from .. import pre_cache
 
+from music_app import app
+
 class Client:
 
     """
@@ -52,9 +54,9 @@ class Client:
         self.server_url = server_url
         self.access_token = access_token
         self.cache = cache
-        self.album_pre_cache = pre_cache.AlbumPreCache()
-        self.artist_pre_cache = pre_cache.ArtistPreCache()
-        self.track_pre_cache = pre_cache.TrackPreCache()
+        self.album_pre_cache = pre_cache.AlbumPreCache(app.config['PRECACHED_ALBUM_DATA'])
+        self.artist_pre_cache = pre_cache.ArtistPreCache(app.config['PRECACHED_ARTIST_DATA'])
+        self.track_pre_cache = pre_cache.TrackPreCache(app.config['PRECACHED_TRACK_DATA'])
 
     def _make_request(self, url, params={}, headers={}):
         res = requests.get(url, params=params, headers=headers)
@@ -66,29 +68,33 @@ class Client:
         return "{0}{1}".format(self.server_url, path)
 
 
-    def search_for(self, q, q_type):        
+    def search_for(self, q, q_type):
+        """
+        Create a cache key based on the input parameters and attempt
+        to fetch query from cache.
+        """
         cache_key = md5.new("{0}--{1}".format(q, q_type)).hexdigest()
+        data = self.cache.get(cache_key, [])
 
-        result = self.cache.get(cache_key, None)
-
-        if result is None:
-            if q == 'artist':
+        if not data:
+            if q_type == 'artist':
                 pre_cache = self.artist_pre_cache
-            elif q == 'album':
+            elif q_type == 'album':
                 pre_cache = self.album_pre_cache
-            elif q == 'track':
+            elif q_type == 'track':
                 pre_cache = self.track_pre_cache
             else:
                 raise Exception('Invalid query type')
-            
-            result = pre_cache.get(q)
+            data = pre_cache.get(q)
 
-        if result is None:
+        if not data:
             search_url = self._absolute_url('/v1/search')
-            result = self._make_request(search_url, { 'q': q, 'type': q_type })
-            self.cache[cache_key] = result.content
-
-        return json.loads(result.content)
+            response = self._make_request(search_url, { 'q': q, 'type': q_type })
+            if response.status_code != 200:
+                return None
+            data = response.json()
+            self.cache[cache_key] = data
+        return data
 
 
     def search_albums(self, query):
