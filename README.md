@@ -4,6 +4,7 @@ App Repo: https://github.com/tiabas/music-player
 
 Source Structure:
 ===================
+`
 .
 ├── Procfile
 
@@ -56,7 +57,7 @@ Source Structure:
 └── tests.py
 	- Defines test cases for verifying behaviour of the classes defined in 
 	  this application
-
+`
 
 Libraries used:
 ===============
