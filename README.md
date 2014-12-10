@@ -89,10 +89,10 @@ Running the app:
 From the app root, inside a termianl, run:
 
 - Installing dependencies
-`> pip install -r requirements.txt` 
+```> pip install -r requirements.txt```
 
 - Launching web app
-`> python music_app.py`
+```> python music_app.py```
 
 - Running tests:
-`> python tests.py`
+```> python tests.py```
