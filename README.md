@@ -80,13 +80,13 @@ help                           GET                    /
 perform_search                 GET                    /search
 get_or_create_playlists        POST,GET               /playlists
 view_or_update_playlist        PUT,GET,DELETE         /playlists/[playlist_id]
-add_track_to_playlist          POST,OPTIONS           /playlists/[playlist_id]/add_track
+add_track_to_playlist          POST                   /playlists/[playlist_id]/add_track
 remove_track_to_playlist       DELETE                 /playlists/[playlist_id]/remove_track
 ```
 
 Running the app:
 ------------------
-From the application root directory, inside a unix termianl, run:
+From the application root directory, inside a unix terminal, run:
 
 - Installing dependencies
 ```bash
