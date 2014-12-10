@@ -5,6 +5,10 @@ from music_app import db
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+       return { 'id' : self.id }
 
 class AccessToken(db.Model):
     @classmethod
@@ -56,6 +60,15 @@ class Playlist(db.Model):
     def __repr__(self):
         return '<Playlist %r>' % (self.title)
 
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+       return {
+           'id' : self.id,
+           'title': self.title,
+           'user': self.user.serialize,
+           'tracks': [ item.serialize for item in self.tracks]
+       }
 
 class Track(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -70,3 +83,13 @@ class Track(db.Model):
 
     def __repr__(self):
         return '<Track %r>' % (self.title)
+
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+       return {
+           'id' : self.id,
+           'title': self.title,
+           'uri': self.uri,
+           'track_id': self.track_id
+       }

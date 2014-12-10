@@ -42,6 +42,20 @@ class MusicAppTestCase(unittest.TestCase):
         self.assertEqual(data['user_id'], 1)
 
 
+
+    def test_playlist_list(self):
+        pl1 = Playlist('playlist_1', self.user)
+        self.db.session.add(pl1)
+        self.db.session.commit()
+
+        response = self.app.get("/playlists")
+
+        data = json.loads(response.data)
+        playlist = data['playlists'][0]
+        self.assertEqual(playlist['title'], 'playlist_1')
+        self.assertEqual(playlist['tracks'], [])
+        self.assertEqual(playlist['user']['id'], self.user.id)
+
     def test_playlist_read(self):
         pl = Playlist('playlist_2', self.user)
         self.db.session.add(pl)
@@ -83,17 +97,20 @@ class MusicAppTestCase(unittest.TestCase):
 
 
     def test_playlist_add_track(self):
+        trk = Track('0eGsygTp906u18L0Oimnem',
+            'Mr. Brightside',
+            'spotify:track:0eGsygTp906u18L0Oimnem')
+        self.db.session.add(trk)
+
         pl1 = Playlist('playlist1', self.user)
         self.db.session.add(pl1)
         self.db.session.commit()
-        pl1_id = pl1.id
+
+        pl1_id = pl1.id # cache playlist ID
         response = self.app.post("/playlists/%s/add_track" % pl1.id,
-            data=json.dumps({
-                'track_id': '0eGsygTp906u18L0Oimnem',
-                'title': 'Mr. Brightside',
-                'uri': 'spotify:track:0eGsygTp906u18L0Oimnem'
-            }),
+            data=json.dumps({'id': trk.id }),
             content_type='application/json')
+
         plx = Playlist.query.get(pl1_id)
         self.assertEqual('201 CREATED', response.status)
         self.assertEqual(1, len(plx.tracks))
@@ -124,17 +141,17 @@ class MusicAppTestCase(unittest.TestCase):
         self.assertEqual(0, len(plx.tracks))
 
 
-    def test_search_uncached(self):
-        response = self.app.get('/search?q=The%20Killers&q_type=track')
-        self.assertEqual('200 OK', response.status)
+    # def test_search_uncached(self):
+    #     response = self.app.get('/search?q=The%20Killers&q_type=track')
+    #     self.assertEqual('200 OK', response.status)
 
 
-    def test_search_postcached(self):
-        pass
+    # def test_search_postcached(self):
+    #     pass
 
 
-    def test_search_precached(self):
-        pass
+    # def test_search_precached(self):
+    #     pass
 
 if __name__ == '__main__':
     unittest.main()

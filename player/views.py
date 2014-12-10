@@ -1,12 +1,10 @@
 from __future__ import absolute_import
-from flask import request, Response, jsonify, Blueprint
+from flask import request, Response, jsonify
 
 from lib.spotify.client import Client as spotify_api_client
 from music_app import db, app
 
 from . models import *
-
-# mod = Blueprint('player', __name__, url_prefix='')
 
 
 @app.route("/playlists", methods=['GET', 'POST'])
@@ -42,7 +40,7 @@ def get_or_create_playlists():
     else:
         # return all playlists belonging to current user  
         playlists = Playlist.query.filter_by(user_id=user.id).all()
-        return jsonify(playlists)
+        return jsonify(playlists=[p.serialize for p in playlists])
 
 
 @app.route("/playlists/<playlist_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -80,30 +78,12 @@ def add_track_to_playlist(playlist_id):
     # add track to playlist
     pl = Playlist.query.filter_by(id=playlist_id, user_id=1).first_or_404()
     data = request.get_json()
-    track_id = data['track_id']
+    t_id = data['id']
+    track = Track.query.get_or_404(t_id)
 
-    # fetch track data??
-    track = Track.query.filter_by(track_id=track_id).first()
-
-    # if track with ID is does not exist in DB, attempt to fetch it from
-    # spotify and then create it
-    if track is None:
-        track_data = spotify_api_client().get_track(track_id)
-
-        if track_data is None:
-            return Response("invalid track_id: %s" % track_id, status=403)
-        parsed = json.loads(track_data.content)
-        track = Track(
-            track_id=parsed['id'],
-            uri=parsed['uri'],
-            title=parsed['name'])
-        db.session.add(track)
-        db.session.commit()
-
-        pl.tracks.append(track)
-        db.session.commit()
-        return Response('', status=201)
-    return Response('', status=204)
+    pl.tracks.append(track)
+    db.session.commit()
+    return Response('', status=201)
 
 @app.route("/playlists/<playlist_id>/remove_track", methods=['DELETE'])
 def remove_track_to_playlist(playlist_id):
