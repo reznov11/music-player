@@ -76,12 +76,12 @@ functionality that was not necessarily relevant to the problem at hand
 Endpoints:
 ----------
 ```
-help                           GET                          /
-perform_search                 GET                          /search
-get_or_create_playlists        POST,GET                     /playlists
-view_or_update_playlist        PUT,GET,DELETE               /playlists/[playlist_id]
-add_track_to_playlist          POST,OPTIONS                 /playlists/[playlist_id]/add_track
-remove_track_to_playlist       DELETE                       /playlists/[playlist_id]/remove_track
+help                           GET                    /
+perform_search                 GET                    /search
+get_or_create_playlists        POST,GET               /playlists
+view_or_update_playlist        PUT,GET,DELETE         /playlists/[playlist_id]
+add_track_to_playlist          POST,OPTIONS           /playlists/[playlist_id]/add_track
+remove_track_to_playlist       DELETE                 /playlists/[playlist_id]/remove_track
 ```
 
 Running the app:
