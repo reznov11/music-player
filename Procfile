@@ -1,1 +1,1 @@
-web: gunicorn run:music_app
+web: gunicorn music_app:app --log-file=-

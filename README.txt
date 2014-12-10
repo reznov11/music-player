@@ -67,9 +67,9 @@ functionality that was not necessarily relevant to the problem at hand
          web utilities for a very basic python web apps
 - marisa-trie: Provides a Trie datastrucure for fast lookup of items in pre-cached data cache
 - SQLAlchemy: A python database wrapper the provides ORM functionalities
-- virtualenv: 
+- virtualenv: Tool to create isolated Python environments
 - Flask-Testing: Utilities for testing Flask based web applications
-
+- Gunicorn: Python WSGI HTTP Server for UNIX
 
 Endpoints:
 ========== 
