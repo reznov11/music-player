@@ -1,8 +1,8 @@
-App Link: https://nameless-caverns-2924.herokuapp.com/
+**Link to web app running on heroku**: https://nameless-caverns-2924.herokuapp.com/
 
-App Repo: https://github.com/tiabas/music-player
+**Link to web app source repository**: https://github.com/tiabas/music-player
 
-Source Structure:
+###Source Structure:
 ===================
 ```
 .
@@ -59,7 +59,7 @@ Source Structure:
 	  this application
 ```
 
-Libraries used:
+###Libraries used:
 ===============
 All the libraries below were used in order to save time and avoid duplicating 
 functionality that was not necessarily relevant to the problem at hand
@@ -73,7 +73,7 @@ functionality that was not necessarily relevant to the problem at hand
 - Flask-Testing: Utilities for testing Flask based web applications
 - Gunicorn: Python WSGI HTTP Server for UNIX
 
-Endpoints:
+###Endpoints:
 ==========
 ```
 help                           GET                          /
@@ -84,15 +84,21 @@ add_track_to_playlist          POST,OPTIONS                 /playlists/[playlist
 remove_track_to_playlist       DELETE                       /playlists/[playlist_id]/remove_track
 ```
 
-Running the app:
+###Running the app:
 ================
-From the app root, inside a termianl, run:
+From the application root directory, inside a unix termianl, run:
 
 - Installing dependencies
-```> pip install -r requirements.txt```
+```bash
+pip install -r requirements.txt
+```
 
 - Launching web app
-```> python music_app.py```
+```bash
+python music_app.py
+```
 
 - Running tests:
-```> python tests.py```
+```bash
+python tests.py
+```
