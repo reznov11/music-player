@@ -82,7 +82,7 @@ def view_or_update_playlist(playlist_id):
     return jsonify(
             title=pl.title,
             user_id=pl.user_id,
-            tracks=pl.tracks)
+            tracks=[t.serialize for t in pl.tracks])
 
 
 @app.route("/playlists/<playlist_id>/add_track", methods=['POST'])
