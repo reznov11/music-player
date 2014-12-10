@@ -1,8 +1,8 @@
-from __future__ import absolute_import
 from flask import request, Response, jsonify, Blueprint
 
 from lib.spotify.client import Client as spotify_api_client
-from app import db
+
+from music_app import db
 
 from . models import *
 
