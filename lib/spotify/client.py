@@ -15,6 +15,8 @@ requests_log = logging.getLogger("requests.packages.urllib3")
 requests_log.setLevel(logging.DEBUG)
 requests_log.propagate = True
 
+from .. import pre_cache
+
 class Client:
 
     """
@@ -50,9 +52,9 @@ class Client:
         self.server_url = server_url
         self.access_token = access_token
         self.cache = cache
-        self.album_pre_cache = AlbumPreCache()
-        self.artist_pre_cache = ArtistPreCache()
-        self.track_pre_cache = TrackPreCache()
+        self.album_pre_cache = pre_cache.AlbumPreCache()
+        self.artist_pre_cache = pre_cache.ArtistPreCache()
+        self.track_pre_cache = pre_cache.TrackPreCache()
 
     def _make_request(self, url, params={}, headers={}):
         res = requests.get(url, params=params, headers=headers)
@@ -76,7 +78,7 @@ class Client:
                 pre_cache = self.album_pre_cache
             elif q == 'track':
                 pre_cache = self.track_pre_cache
-            else
+            else:
                 raise Exception('Invalid query type')
             
             result = pre_cache.get(q)

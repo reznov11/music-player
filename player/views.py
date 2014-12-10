@@ -2,14 +2,14 @@ from __future__ import absolute_import
 from flask import request, Response, jsonify, Blueprint
 
 from lib.spotify.client import Client as spotify_api_client
-from app import db
+from music_app import db, app
 
 from . models import *
 
-mod = Blueprint('player', __name__, url_prefix='')
+# mod = Blueprint('player', __name__, url_prefix='')
 
 
-@mod.route("/playlists", methods=['GET', 'POST'])
+@app.route("/playlists", methods=['GET', 'POST'])
 def get_or_create_playlists():
     """
     Create a playlist or, returns a list of playlists 
@@ -45,7 +45,7 @@ def get_or_create_playlists():
         return jsonify(playlists)
 
 
-@mod.route("/playlists/<playlist_id>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/playlists/<playlist_id>", methods=['GET', 'PUT', 'DELETE'])
 def view_or_update_playlist(playlist_id):
     """
     Fetches a playlist with the provides playlist primary key.
@@ -75,7 +75,7 @@ def view_or_update_playlist(playlist_id):
             tracks=pl.tracks)
 
 
-@mod.route("/playlists/<playlist_id>/add_track", methods=['POST'])
+@app.route("/playlists/<playlist_id>/add_track", methods=['POST'])
 def add_track_to_playlist(playlist_id):
     # add track to playlist
     pl = Playlist.query.filter_by(id=playlist_id, user_id=1).first_or_404()
@@ -105,7 +105,7 @@ def add_track_to_playlist(playlist_id):
         return Response('', status=201)
     return Response('', status=204)
 
-@mod.route("/playlists/<playlist_id>/remove_track", methods=['DELETE'])
+@app.route("/playlists/<playlist_id>/remove_track", methods=['DELETE'])
 def remove_track_to_playlist(playlist_id):
     # remove track from playlist
     playlist = Playlist.query.filter_by(id=playlist_id, user_id=1).first_or_404()
@@ -122,7 +122,7 @@ def remove_track_to_playlist(playlist_id):
     return Response('', status=200)
 
 
-@mod.route("/search", methods=['GET'])
+@app.route("/search", methods=['GET'])
 def perform_search():
     q = request.args.get('q')
     q_type = request.args.get('q_type')
