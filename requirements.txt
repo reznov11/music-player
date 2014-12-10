@@ -11,3 +11,4 @@ itsdangerous==0.24
 virtualenv==1.11.6
 Flask-Testing
 Gunicorn
+Requests
