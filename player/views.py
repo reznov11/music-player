@@ -6,12 +6,21 @@ from music_app import db, app
 
 from . models import *
 
+@app.route('/', methods = ['GET'])
+def help():
+    """Print available functions."""
+    func_list = {}
+    for rule in app.url_map.iter_rules():
+        if rule.endpoint != 'static':
+            func_list[rule.rule] = app.view_functions[rule.endpoint].__doc__
+    return jsonify(endpoints=func_list)
 
 @app.route("/playlists", methods=['GET', 'POST'])
 def get_or_create_playlists():
     """
-    Create a playlist or, returns a list of playlists 
-    belonging to the current user.
+    `POST` Creates a playlist
+
+    `GET` Returns a list of playlists belonging to the current user.
 
     If the request method is POST, a new playlist will be
     created from the posted data. The response is a JSON
@@ -46,9 +55,12 @@ def get_or_create_playlists():
 @app.route("/playlists/<playlist_id>", methods=['GET', 'PUT', 'DELETE'])
 def view_or_update_playlist(playlist_id):
     """
-    Fetches a playlist with the provides playlist primary key.
-    If the playlist is not found, a 404 response is returned. 
-    If the playlist title Updates the title for an existing playlist 
+    `GET` Fetches a playlist with the provided database ID. If the 
+    playlist is not found, a 404 response is returned. 
+
+    `PUT` Updates the title for existing playlist
+
+    `DELETE` Deletes playlist with provided ID 
     """
     pl = Playlist.query.filter_by(id=playlist_id, user_id=1).first_or_404()
 
@@ -75,7 +87,9 @@ def view_or_update_playlist(playlist_id):
 
 @app.route("/playlists/<playlist_id>/add_track", methods=['POST'])
 def add_track_to_playlist(playlist_id):
-    # add track to playlist
+    """
+    `POST` Adds track with provided database ID to playlist with specified ID
+    """
     pl = Playlist.query.filter_by(id=playlist_id, user_id=1).first_or_404()
     data = request.get_json()
     t_id = data['id']
@@ -87,7 +101,9 @@ def add_track_to_playlist(playlist_id):
 
 @app.route("/playlists/<playlist_id>/remove_track", methods=['DELETE'])
 def remove_track_to_playlist(playlist_id):
-    # remove track from playlist
+    """
+    `DELETE` Removes track with provided database ID to playlist with specified ID
+    """
     playlist = Playlist.query.filter_by(id=playlist_id, user_id=1).first_or_404()
 
     data = request.get_json()
@@ -104,6 +120,9 @@ def remove_track_to_playlist(playlist_id):
 
 @app.route("/search", methods=['GET'])
 def perform_search():
+    """
+    `GET` Search for a given query type and query string
+    """
     q = request.args.get('q')
     q_type = request.args.get('q_type')
     resp = spotify_api_client().search_for(q, q_type)

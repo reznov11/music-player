@@ -11,6 +11,9 @@ class User(db.Model):
        return { 'id' : self.id }
 
 class AccessToken(db.Model):
+    """
+    Model for storing OAuth2 token data for a given user
+    """
     @classmethod
     def from_json(cls, data):
         token_dict = json.loads(data)
@@ -43,6 +46,9 @@ tracks = db.Table('tracks',
     db.Column('playlist_id', db.Integer, db.ForeignKey('playlist.id')))
 
 class Playlist(db.Model):
+    """
+    Model for storing playlist information belonging to a specific user
+    """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -71,6 +77,9 @@ class Playlist(db.Model):
        }
 
 class Track(db.Model):
+    """
+    Model for storing track information
+    """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), unique=True)
     uri = db.Column(db.String(50), unique=True)
