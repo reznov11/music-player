@@ -74,25 +74,25 @@ functionality that was not necessarily relevant to the problem at hand
 - Gunicorn: Python WSGI HTTP Server for UNIX
 
 Endpoints:
-========== 
+==========
+```
+help                           GET                          /
+perform_search                 GET                          /search
+get_or_create_playlists        POST,GET                     /playlists
+view_or_update_playlist        PUT,GET,DELETE               /playlists/[playlist_id]
 add_track_to_playlist          POST,OPTIONS                 /playlists/[playlist_id]/add_track
-get_or_create_playlists        HEAD,POST,OPTIONS,GET        /playlists
-help                           HEAD,OPTIONS,GET             /
-perform_search                 HEAD,OPTIONS,GET             /search
-remove_track_to_playlist       OPTIONS,DELETE               /playlists/[playlist_id]/remove_track
-static                         HEAD,OPTIONS,GET             /static/[filename]
-view_or_update_playlist        PUT,HEAD,GET,OPTIONS,DELETE  /playlists/[playlist_id]
-
+remove_track_to_playlist       DELETE                       /playlists/[playlist_id]/remove_track
+```
 
 Running the app:
 ================
 From the app root, inside a termianl, run:
 
 - Installing dependencies
-> pip install -r requirements.txt 
+`> pip install -r requirements.txt` 
 
 - Launching web app
-> python music_app.py
+`> python music_app.py`
 
 - Running tests:
-> python tests.py
+`> python tests.py`
